@@ -150,9 +150,9 @@ $(document).ready(function () {
             // Event start date
             start: new Date('Nov 18, 2023 17:00'),
 
-            
+
             // Event timezone. Will convert the given time to that zone
-            timezone: 'Asia/Hong_Kong',      
+            timezone: 'Asia/Hong_Kong',
 
             // Event duration (IN MINUTES)
             duration: 180,
@@ -165,7 +165,7 @@ $(document).ready(function () {
             // address: '75VC+F9 Tsim Sha Tsui, Hong Kong',
             // address: 'https://goo.gl/maps/PE675c6zty6JSC8x5',
             address: 'Serenade Chinese Restaurant, 2樓, 尖沙咀梳士巴利道10號香港文化中心大樓1, Tsim Sha Tsui, Hong Kong',
-            
+
             // Event Description
             // description: "We can't wait to see you on our big day."
         }
@@ -181,14 +181,24 @@ $(document).ready(function () {
         // var name = decodeURIComponent(data.match(/name=(.*)/)[1]);
         var name = new FormData(this).get('name');
 
-        $('#alert-wrapper').html(alert_markup('info', '<strong>Just a sec!</strong> We are looking up your details.'));
+        $('#alert-wrapper').html(
+            alert_markup(
+                'info',
+                '<strong>Just a sec!</strong> We are looking up your details.'
+                + '</br>'
+                + '<strong>稍等片刻!</strong> 我們正在查找您的資料.'
+            )
+        );
 
         $.get('https://script.google.com/macros/s/AKfycbxNt0nokofAbTOHcIEnZnHrq_C9yXjzq_wDjbzUx_8Xfc_u9yeRlbivP9rB7Sd5YhsX/exec', data)
             .done(function (data) {
                 if (data.result === "error") {
-                    $('#alert-wrapper').html(alert_markup('danger', data.message));
+                    var msg = data.en_message + '</br>' + data.ch_message;
+                    $('#alert-wrapper').html(alert_markup('danger', msg));
                 } else {
-                    $('#alert-wrapper').html(alert_markup('success', data.message));
+                    console.log(data)
+                    var msg = data.en_message + '</br>' + data.ch_message;
+                    $('#alert-wrapper').html(alert_markup('success', msg));
 
                     if (data.last_updated) {
                         $('#rsvp-lastUpdated').html(update_lastUpdated(data.last_updated));
@@ -236,7 +246,7 @@ $(document).ready(function () {
         $('#rsvp-alert-wrapper').html('');
         $('#alert-wrapper').html('');
     });
-    
+
     /********************** RSVP Submission **********************/
     $('#rsvp-modal-form').on('submit', function (e) {
         e.preventDefault();
@@ -244,7 +254,7 @@ $(document).ready(function () {
 
         var allRSVPs = data.match(/rsvp-[\d]=(.)/g);
         var rsvpY = false;
-        allRSVPs.forEach(function(rsvp) {
+        allRSVPs.forEach(function (rsvp) {
             if (rsvp.slice(-1) === 'Y') {
                 rsvpY = true;
             }
