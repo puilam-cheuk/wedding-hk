@@ -377,7 +377,8 @@ function create_individual_card(idx) {
 function create_name_field(name, rowIdx, idx) {
     var displayOrFillInput = '';
     if (name.startsWith('!')) {
-        displayOrFillInput = '<input name="fill_name-' + idx + '" type="text" class="" required placeholder="Name | 姓名">';
+        var customErrMsg = "'Please fill out the name. | 請填寫姓名。'";
+        displayOrFillInput = '<input name="fill_name-' + idx + '" type="text" class="" required placeholder="Name | 姓名" oninvalid="this.setCustomValidity(' + customErrMsg + ')" oninput="this.setCustomValidity(\'\')">';
     } else {
         displayOrFillInput = '<input name="display_name-' + idx + '" type="text" class="" value="' + name + '" required readonly disabled>';
     }
@@ -396,7 +397,7 @@ function create_email_input(idx) {
     return '<div class="col-md-12 col-sm-12">'
         + '<div class="form-input-group">'
         + '<i class="fa fa-envelope"></i>'
-        + '<input name="email-' + idx + '" type="email" class="" placeholder="E-mail | 電郵">'
+        + '<input name="email-' + idx + '" type="email" class="" placeholder="E-mail | 電郵" autocomplete="email">'
         + '</div>'
         + '</div>';
 }
@@ -413,8 +414,10 @@ function create_diet_input(idx) {
 
 // create dietary restrictions input
 function create_rsvp_response_input(idx) {
-    return '<label class="radio-inline"><input type="radio" id="rsvp-response-accept" name="rsvp-' + idx + '" value="Y" required>Accept | 接受</label>'
-        + '<label class="radio-inline"><input type="radio" id="rsvp-response-decline" name="rsvp-' + idx + '" value="N" required>Decline | 拒絕</label>';
+    var customErrMsg = "'Please choose to accept or decline. | 請選擇接受或拒絕。'";
+    var clickHandler = "this.form[ this.name ][0].setCustomValidity('')";
+    return '<label class="radio-inline"><input type="radio" id="rsvp-response-accept-' + idx + '" name="rsvp-' + idx + '" value="Y" required oninvalid="setCustomValidity(' + customErrMsg + ')" onclick="setCustomValidity(\'\')">Accept | 接受</label>'
+        + '<label class="radio-inline"><input type="radio" id="rsvp-response-decline-' + idx + '" name="rsvp-' + idx + '" value="N" required onclick="' + clickHandler + '">Decline | 拒絕</label>';
 }
 
 // MD5 Encoding
