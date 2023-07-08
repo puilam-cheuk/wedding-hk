@@ -192,11 +192,10 @@ $(document).ready(function () {
 
         $.get('https://script.google.com/macros/s/AKfycbxNt0nokofAbTOHcIEnZnHrq_C9yXjzq_wDjbzUx_8Xfc_u9yeRlbivP9rB7Sd5YhsX/exec', data)
             .done(function (data) {
+                var msg = data.en_message + '</br>' + data.ch_message;
                 if (data.result === "error") {
-                    var msg = data.en_message + '</br>' + data.ch_message;
                     $('#alert-wrapper').html(alert_markup('danger', msg));
                 } else {
-                    var msg = data.en_message + '</br>' + data.ch_message;
                     $('#alert-wrapper').html(alert_markup('success', msg));
 
                     if (data.last_updated) {
