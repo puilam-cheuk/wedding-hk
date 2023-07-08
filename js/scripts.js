@@ -196,7 +196,6 @@ $(document).ready(function () {
                     var msg = data.en_message + '</br>' + data.ch_message;
                     $('#alert-wrapper').html(alert_markup('danger', msg));
                 } else {
-                    console.log(data)
                     var msg = data.en_message + '</br>' + data.ch_message;
                     $('#alert-wrapper').html(alert_markup('success', msg));
 
