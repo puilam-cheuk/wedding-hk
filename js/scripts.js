@@ -184,7 +184,7 @@ $(document).ready(function () {
         $('#alert-wrapper').html(
             alert_markup(
                 'info',
-                '<strong>Just a sec!</strong> We are looking up your details.'
+                '<strong>Please wait!</strong> We are looking up your details.'
                 + '</br>'
                 + '<strong>稍等片刻!</strong> 我們正在查找您的資料。'
             )
@@ -269,7 +269,7 @@ $(document).ready(function () {
         $('#rsvp-alert-wrapper').html(
             alert_markup(
                 'info',
-                '<strong>Just a sec!</strong> Submitting info.'
+                '<strong>Please wait!</strong> Submitting info.'
                 + '</br>'
                 + '<strong>稍等片刻!</strong> 正在提交信息。'
             )
@@ -296,7 +296,7 @@ $(document).ready(function () {
                         'danger',
                         '<strong>Sorry!</strong> There is some issue with the server. Please try again later.'
                         + '</br>'
-                        + '<strong>對不起!</strong> 服務器出現問題，請稍後再試.'
+                        + '<strong>對不起!</strong> 服務器出現問題，請稍後再試。'
                     )
                 );
             });
@@ -341,50 +341,80 @@ function alert_markup(alert_type, msg) {
 
 // inject last updated time
 function update_lastUpdated(lastUpdated) {
-    var options = { dateStyle: 'medium', timeStyle: 'short' };
     var lastUpdated_JSDate = new Date(lastUpdated);
+    var options = { dateStyle: 'medium', timeStyle: 'short' };
     return '<div class="col-md-12 col-sm-12 text-right">'
         + 'Last updated: ' + lastUpdated_JSDate.toLocaleString('en-US', options)
-        + '</div>' + '<div class="col-md-12 col-sm-12 text-right">' +
-        '最後更新: ' + lastUpdated_JSDate.toLocaleString('zh-HK', options) +
-        '</div><p></p>';
+        + '</div>'
+        + '<div class="col-md-12 col-sm-12 text-right">'
+        + '最後更新: ' + lastUpdated_JSDate.toLocaleString('zh-HK', options)
+        + '</div>'
+        + '<p></p>';
 }
 
 // inject rsvp ccount
 function update_maxSize(rsvpMaxSize) {
     return '<div class="col-md-12 col-sm-12 text-left">'
-        + 'We have reserved <b>' + rsvpMaxSize + '</b> seat(s) in your honor.' + '</div>'
+        + 'We have reserved <b>' + rsvpMaxSize + '</b> seat(s) in your honor.'
+        + '</div>'
         + '<div class="col-md-12 col-sm-12 text-left">'
-        + '我們為您保留了<b>' + rsvpMaxSize + '</b>個席位。' + '</div>'
-        ;
+        + '我們為您保留了<b>' + rsvpMaxSize + '</b>個席位。'
+        + '</div>';
 }
 
 // inject last updated time
 function create_individual_card(idx) {
-    return '<hr><div id="rsvp-guest-' + idx + '"><div class="row"><div id="rsvp-name-' + idx + '"></div></div><div class="row"><div id="rsvp-email-' + idx + '"></div></div><div class="row"><div id="rsvp-diet-' + idx + '"></div></div><div class="row section-padding"><div id="rsvp-response-' + idx + '"></div></div></div>';
+    return '<hr>'
+        + '<div id="rsvp-guest-' + idx + '">'
+        + '<div class="row"><div id="rsvp-name-' + idx + '"></div></div>'
+        + '<div class="row"><div id="rsvp-email-' + idx + '"></div></div>'
+        + '<div class="row"><div id="rsvp-diet-' + idx + '"></div></div>'
+        + '<div class="row section-padding"><div id="rsvp-response-' + idx + '"></div></div>'
+        + '</div>';
 }
 
 // inject name field. if it starts with a '!' this indicates the name should be left blank to be filled out. otherwise, it will be a readonly name field.
 function create_name_field(name, rowIdx, idx) {
+    var displayOrFillInput = '';
     if (name.startsWith('!')) {
-        return '<div class="col-md-12 col-sm-12"><div class="form-input-group"><i class="fa fa-user"></i><input name="fill_name-' + idx + '" type="text" class="" required placeholder="Name | 姓名"><input name="rowIdx-' + idx + '" type="text" class="" value=' + rowIdx + ' readonly hidden><input name="name-' + idx + '" type="text" class="" value="' + name + '" readonly hidden></div></div>';
+        displayOrFillInput = '<input name="fill_name-' + idx + '" type="text" class="" required placeholder="Name | 姓名">';
+    } else {
+        displayOrFillInput = '<input name="display_name-' + idx + '" type="text" class="" value="' + name + '" required readonly disabled>';
     }
-    return '<div class="col-md-12 col-sm-12"><div class="form-input-group"><i class="fa fa-user"></i><input name="display_name-' + idx + '" type="text" class="" value="' + name + '" required readonly disabled><input name="rowIdx-' + idx + '" type="text" class="" value=' + rowIdx + ' readonly hidden><input name="name-' + idx + '" type="text" class="" value="' + name + '" readonly hidden></div></div>';
+    return '<div class="col-md-12 col-sm-12">'
+        + '<div class="form-input-group">'
+        + '<i class="fa fa-user"></i>'
+        + displayOrFillInput
+        + '<input name="rowIdx-' + idx + '" type="text" class="" value=' + rowIdx + ' readonly hidden>'
+        + '<input name="name-' + idx + '" type="text" class="" value="' + name + '" readonly hidden>'
+        + '</div>'
+        + '</div>';
 }
 
 // create email input
 function create_email_input(idx) {
-    return '<div class="col-md-12 col-sm-12"><div class="form-input-group"><i class="fa fa-envelope"></i><input name="email-' + idx + '" type="email" class="" placeholder="E-mail | 電郵"></div></div>';
+    return '<div class="col-md-12 col-sm-12">'
+        + '<div class="form-input-group">'
+        + '<i class="fa fa-envelope"></i>'
+        + '<input name="email-' + idx + '" type="email" class="" placeholder="E-mail | 電郵">'
+        + '</div>'
+        + '</div>';
 }
 
 // create dietary restrictions input
 function create_diet_input(idx) {
-    return '<div class="col-md-12 col-sm-12"><div class="form-input-group"><i class="fa fa-cutlery"></i><input name="diet-' + idx + '" type="text" class="" placeholder="Dietary restrictions | 飲食限制"></div></div>';
+    return '<div class="col-md-12 col-sm-12">'
+        + '<div class="form-input-group">'
+        + '<i class="fa fa-cutlery"></i>'
+        + '<input name="diet-' + idx + '" type="text" class="" placeholder="Dietary restrictions | 飲食限制">'
+        + '</div>'
+        + '</div>';
 }
 
 // create dietary restrictions input
 function create_rsvp_response_input(idx) {
-    return '<label class="radio-inline"><input type="radio" id="rsvp-response-accept" name="rsvp-' + idx + '" value="Y" required>Accept | 接受</label><label class="radio-inline"><input type="radio" id="rsvp-response-decline" name="rsvp-' + idx + '" value="N" required>Decline | 拒絕</label>';
+    return '<label class="radio-inline"><input type="radio" id="rsvp-response-accept" name="rsvp-' + idx + '" value="Y" required>Accept | 接受</label>'
+        + '<label class="radio-inline"><input type="radio" id="rsvp-response-decline" name="rsvp-' + idx + '" value="N" required>Decline | 拒絕</label>';
 }
 
 // MD5 Encoding
