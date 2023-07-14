@@ -145,7 +145,7 @@ $(document).ready(function () {
         },
         data: {
             // Event title
-            title: "謝鄭婚宴 | Cheuk & Pui Lam Banquet",
+            title: "謝鄭婚宴 | Cheuk and Pui Lam's Banquet",
 
             // Event start date
             start: new Date('Nov 18, 2023 17:00'),
