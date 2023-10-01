@@ -95,7 +95,7 @@ $(document).ready(function () {
                     "border-bottom": "none",
                     "padding": "35px 0"
                 });
-                $('header .member-actions').css({
+                $('header .rsvp-action').css({
                     "top": "39px",
                 });
                 $('header .navicon').css({
@@ -107,7 +107,7 @@ $(document).ready(function () {
                     "border-bottom": "solid 1px rgba(255, 255, 255, 0.2)",
                     "padding": "50px 0"
                 });
-                $('header .member-actions').css({
+                $('header .rsvp-action').css({
                     "top": "54px",
                 });
                 $('header .navicon').css({
